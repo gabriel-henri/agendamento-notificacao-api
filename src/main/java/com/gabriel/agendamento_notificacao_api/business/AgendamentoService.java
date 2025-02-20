@@ -3,6 +3,7 @@ package com.gabriel.agendamento_notificacao_api.business;
 import com.gabriel.agendamento_notificacao_api.business.mapper.IAgendamentoMapper;
 import com.gabriel.agendamento_notificacao_api.controller.dto.in.AgendamentoRecord;
 import com.gabriel.agendamento_notificacao_api.controller.dto.out.AgendamentoRecordOut;
+import com.gabriel.agendamento_notificacao_api.infrastructure.entities.Agendamento;
 import com.gabriel.agendamento_notificacao_api.infrastructure.exception.NotFoundException;
 import com.gabriel.agendamento_notificacao_api.infrastructure.repository.AgendamentoRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,5 +24,12 @@ public class AgendamentoService {
         return agendamentoMapper.paraOut(
                 agendamentoRepository.findById(id)
                         .orElseThrow(() -> new NotFoundException("Id não encontrado")));
+    }
+
+    public void cancelarAgendamento(Long id){
+        Agendamento agendamento = agendamentoRepository.findById(id).orElseThrow(() -> new NotFoundException("Id não encontrado"));
+        agendamentoRepository.save(
+          agendamentoMapper.paraEntityCancelamento(agendamento)
+        );
     }
 }

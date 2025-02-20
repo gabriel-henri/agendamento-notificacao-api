@@ -4,6 +4,7 @@ import com.gabriel.agendamento_notificacao_api.controller.dto.in.AgendamentoReco
 import com.gabriel.agendamento_notificacao_api.controller.dto.out.AgendamentoRecordOut;
 import com.gabriel.agendamento_notificacao_api.infrastructure.entities.Agendamento;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 import static org.mapstruct.MappingConstants.ComponentModel.SPRING;
 
@@ -14,4 +15,7 @@ public interface IAgendamentoMapper {
 
     AgendamentoRecordOut paraOut(Agendamento agendamento);
 
+    @Mapping(target = "dataHoraModificacao", expression="java(LocalDateTime.now())")
+    @Mapping(target = "statusNotificacao", expression = "java(StatusNotificacaoEnum.CANCELADO)")
+    Agendamento paraEntityCancelamento(Agendamento agendamento);
 }
